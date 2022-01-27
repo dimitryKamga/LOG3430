@@ -47,7 +47,12 @@ class TestEmailAnalyzer(unittest.TestCase):
         Il faut mocker les fonctions "spam_ham_body_prob" et "subject_spam_ham_prob".
         La sortie de la fonction doit être True si probabilité spam > probabilité ham
         """
-        pass
+        emailAnalyzer = EmailAnalyzer()
+        mock_spam_ham_body_prob.return_value = self.spam_ham_body_prob_true  
+        mock_spam_ham_subject_prob.return_value = self.spam_ham_body_prob_true
+        print("If spam > ham -> true : test executed")
+        self.assertTrue(emailAnalyzer.is_spam("", ""))
+        #pass
 
     @patch("email_analyzer.EmailAnalyzer.clean_text")
     @patch("email_analyzer.EmailAnalyzer.spam_ham_body_prob")
@@ -59,7 +64,12 @@ class TestEmailAnalyzer(unittest.TestCase):
         Il faut mocker les fonctions "spam_ham_body_prob" et "subject_spam_ham_prob".
         La sortie de la fonction doit être False si probabilité spam < probabilité ham
         """
-        pass
+        emailAnalyzer = EmailAnalyzer()
+        mock_spam_ham_body_prob.return_value = self.spam_ham_body_prob_false 
+        mock_spam_ham_subject_prob.return_value = self.spam_ham_body_prob_false
+        print("If spam < ham -> false : test executed")
+        self.assertFalse(emailAnalyzer.is_spam("", ""))
+        #pass
 
     @patch("email_analyzer.EmailAnalyzer.load_dict")
     def test_spam_ham_body_prob_Returns_expected_probability(self, mock_load_dict):
@@ -67,7 +77,23 @@ class TestEmailAnalyzer(unittest.TestCase):
         Il faut mocker la fonction "load_dict"
         Il faut vérifier que probabilité est calculée correctement en fonction du "body"
         """
-        pass
+        emailAnalyzer = EmailAnalyzer()
+        mock_load_dict.return_value = self.vocab
+        p_spam, p_ham = emailAnalyzer.spam_ham_body_prob("")
+        print("probability of the body performed correctly : test executed")
+        self.assertGreater(p_spam, p_ham)
+        
+        prob_spam_awaited = 0.5925
+        prob_ham_awaited = 0.20375 # la moitié de p_ham 
+        
+        # Vérification des probabilités 
+        self.assertEqual(p_spam, prob_spam_awaited)
+        self.assertEqual(p_ham, prob_ham_awaited)
+        
+        p_spam, p_ham = emailAnalyzer.spam_ham_body_prob("")
+        self.assertGreater(p_ham,
+                           p_spam)
+        #pass
 
     @patch("email_analyzer.EmailAnalyzer.load_dict")
     def test_subject_spam_ham_prob_Returns_expected_probability(self, mock_load_dict):
@@ -75,7 +101,12 @@ class TestEmailAnalyzer(unittest.TestCase):
         Il faut mocker la fonction "load_dict"
         il faut vérifier que probabilité est calculée correctement en fonction du "sujet"
         """
-        pass
+        emailAnalyzer = EmailAnalyzer()
+        mock_load_dict.return_value = self.vocab
+        p_spam, p_ham = emailAnalyzer.spam_ham_body_prob("")
+        print("probability of the sujet performed correctly : test executed")
+        self.assertGreater(p_spam, p_ham)
+        #pass
 
     ###########################################
     #               CUSTOM TEST               #
