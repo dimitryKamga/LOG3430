@@ -85,7 +85,7 @@ class TestCRUD(unittest.TestCase):
         # On vérifie que quand on ajoute un nouvel utilisateur, modify_users_file est appelée avec la nouvelle liste mise à jour
         mock_modify_users_file.assert_called_once_with(users_data_final)
           		
-
+    #TODO
     @patch("crud.CRUD.read_groups_file")
     @patch("crud.CRUD.modify_groups_file")    
     def test_add_new_group_Passes_correct_data_to_modify_groups_file(
@@ -99,6 +99,7 @@ class TestCRUD(unittest.TestCase):
         """
         pass
 
+    # TODO
     @patch("crud.CRUD.read_users_file")
     def test_get_user_data_Returns_false_for_invalid_id(self, mock_read_users_file):
         """Description: il faut utiliser le mock de fonction "read_users_file",
@@ -107,8 +108,8 @@ class TestCRUD(unittest.TestCase):
         il faut utiliser ".assertEqual()" ou ".assertFalse()"
         """
         pass
-        
 
+    # TODO
     @patch("crud.CRUD.read_users_file")
     def test_get_user_data_Returns_false_for_invalid_field(self, mock_read_users_file):
         """Description: il faut utiliser le mock de fonction "read_groups_file",
@@ -118,6 +119,7 @@ class TestCRUD(unittest.TestCase):
         """
         pass
 
+    # TODO
     @patch("crud.CRUD.read_users_file")
     def test_get_user_data_Returns_correct_value_if_field_and_id_are_valid(
         self, mock_read_users_file
@@ -129,6 +131,7 @@ class TestCRUD(unittest.TestCase):
         """
         pass
 
+    # TODO
     @patch("crud.CRUD.read_groups_file")
     def test_get_group_data_Returns_false_for_invalid_id(self, mock_read_groups_file):
         """
@@ -136,6 +139,7 @@ class TestCRUD(unittest.TestCase):
         """
         pass
 
+    # TODO
     @patch("crud.CRUD.read_groups_file")
     def test_get_group_data_Returns_false_for_invalid_field(
         self, mock_read_groups_file
@@ -145,6 +149,7 @@ class TestCRUD(unittest.TestCase):
         """
         pass
 
+    # TODO
     @patch("crud.CRUD.read_groups_file")
     def test_get_group_data_Returns_correct_value_if_field_and_id_are_valid(
         self, mock_read_groups_file
@@ -154,27 +159,32 @@ class TestCRUD(unittest.TestCase):
         """
         pass
 
+    # TODO
     @patch("crud.CRUD.read_users_file")
     def test_get_user_id_Returns_false_for_invalid_user_name(
         self, mock_read_users_file
     ):
         pass
 
+    # TODO
     @patch("crud.CRUD.read_users_file")
     def test_get_user_id_Returns_id_for_valid_user_name(self, mock_read_users_file):
         pass
 
+    # TODO
     @patch("crud.CRUD.read_groups_file")
     def test_get_group_id_Returns_false_for_invalid_group_name(
         self, mock_read_groups_file
     ):
         pass
 
+    # TODO
     @patch("crud.CRUD.read_groups_file")
     def test_get_group_id_Returns_id_for_valid_group_name(self, mock_read_groups_file):
         
         pass
 
+    # TODO
     @patch("crud.CRUD.modify_users_file")
     @patch("crud.CRUD.read_users_file")    
     # Modify_user_file mock est inutile pour tester False pour update
@@ -186,6 +196,7 @@ class TestCRUD(unittest.TestCase):
         """
         pass
 
+    # TODO
     @patch("crud.CRUD.modify_users_file")
     @patch("crud.CRUD.read_users_file")    
     def test_update_users_Returns_false_for_invalid_field(
@@ -196,6 +207,7 @@ class TestCRUD(unittest.TestCase):
         """
         pass
 
+    # TODO
     @patch("crud.CRUD.modify_users_file")
     @patch("crud.CRUD.read_users_file")    
     def test_update_users_Passes_correct_data_to_modify_users_file(
@@ -207,6 +219,7 @@ class TestCRUD(unittest.TestCase):
         """
         pass
 
+    # TODO
     @patch("crud.CRUD.modify_groups_file")
     @patch("crud.CRUD.read_groups_file")    
     def test_update_groups_Returns_false_for_invalid_id(
@@ -217,6 +230,7 @@ class TestCRUD(unittest.TestCase):
         """
         pass
 
+    # TODO
     @patch("crud.CRUD.modify_groups_file")
     @patch("crud.CRUD.read_groups_file")    
     def test_update_groups_Returns_false_for_invalid_field(
@@ -227,6 +241,7 @@ class TestCRUD(unittest.TestCase):
         """
         pass
 
+    # TODO
     @patch("crud.CRUD.modify_groups_file")
     @patch("crud.CRUD.read_groups_file")    
     def test_update_groups_Passes_correct_data_to_modify_groups_file(
@@ -238,6 +253,7 @@ class TestCRUD(unittest.TestCase):
         """
         pass
 
+    # TODO
     @patch("crud.CRUD.modify_users_file")
     @patch("crud.CRUD.read_users_file")    
     def test_remove_user_Returns_false_for_invalid_id(
@@ -245,6 +261,7 @@ class TestCRUD(unittest.TestCase):
     ):
         pass
 
+    # TODO
     @patch("crud.CRUD.modify_users_file")
     @patch("crud.CRUD.read_users_file")    
     def test_remove_user_Passes_correct_value_to_modify_users_file(
@@ -252,6 +269,7 @@ class TestCRUD(unittest.TestCase):
     ):
         pass
 
+    # TODO
     @patch("crud.CRUD.modify_users_file")
     @patch("crud.CRUD.read_users_file")    
     def test_remove_user_group_Returns_false_for_invalid_id(
@@ -259,6 +277,7 @@ class TestCRUD(unittest.TestCase):
     ):
         pass
 
+    # TODO
     @patch("crud.CRUD.modify_users_file")
     @patch("crud.CRUD.read_users_file")    
     def test_remove_user_group_Returns_false_for_invalid_group(
@@ -266,6 +285,7 @@ class TestCRUD(unittest.TestCase):
     ):
         pass
 
+    # TODO
     @patch("crud.CRUD.modify_users_file")
     @patch("crud.CRUD.read_users_file")
     def test_remove_user_group_Passes_correct_value_to_modify_users_file(
@@ -273,6 +293,7 @@ class TestCRUD(unittest.TestCase):
     ):
         pass
 
+    # TODO
     @patch("crud.CRUD.modify_groups_file")
     @patch("crud.CRUD.read_groups_file")    
     def test_remove_group_Returns_false_for_invalid_id(
@@ -280,6 +301,7 @@ class TestCRUD(unittest.TestCase):
     ):
         pass
 
+    # TODO
     @patch("crud.CRUD.modify_groups_file")
     @patch("crud.CRUD.read_groups_file")    
     def test_remove_group_Passes_correct_value_to_modify_groups_file(
@@ -287,6 +309,7 @@ class TestCRUD(unittest.TestCase):
     ):
         pass
 
+    # TODO
     @patch("crud.CRUD.modify_groups_file")
     @patch("crud.CRUD.read_groups_file")    
     def test_remove_group_member_Returns_false_for_invalid_id(
@@ -294,6 +317,7 @@ class TestCRUD(unittest.TestCase):
     ):
         pass
 
+    # TODO
     @patch("crud.CRUD.modify_groups_file")
     @patch("crud.CRUD.read_groups_file")    
     def test_remove_group_member_Returns_false_for_invalid_group_member(
@@ -301,6 +325,7 @@ class TestCRUD(unittest.TestCase):
     ):
         pass
 
+    # TODO
     @patch("crud.CRUD.modify_groups_file")
     @patch("crud.CRUD.read_groups_file")    
     def test_remove_group_member_Passes_correct_value_to_modify_groups_file(
