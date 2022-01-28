@@ -1,7 +1,7 @@
 Name                    Stmts   Miss Branch BrPart  Cover
 ---------------------------------------------------------
-crud.py                   227    133    110     18    37%
-email_analyzer.py          46     38     16      0    16%
-vocabulary_creator.py      83     73     34      0    10%
+crud.py                   224    142    100     18    32%
+email_analyzer.py          46     20     14      2    47%
+vocabulary_creator.py      83     73     26      0     9%
 ---------------------------------------------------------
-TOTAL                     356    244    160     18    29%
+TOTAL                     353    235    140     20    29%
