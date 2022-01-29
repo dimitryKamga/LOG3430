@@ -282,21 +282,27 @@ class TestCRUD(unittest.TestCase):
         """
         pass
 
-    # TODO
     @patch("crud.CRUD.modify_users_file")
     @patch("crud.CRUD.read_users_file")
     def test_remove_user_Returns_false_for_invalid_id(
             self, mock_read_users_file, mock_modify_users_file
     ):
-        pass
+        mock_read_users_file.return_value = self.users_data
 
-    # TODO
+        crud_ = CRUD()
+        self.assertFalse(crud_.remove_user(9))
+        mock_modify_users_file.assert_not_called()
+
     @patch("crud.CRUD.modify_users_file")
     @patch("crud.CRUD.read_users_file")
     def test_remove_user_Passes_correct_value_to_modify_users_file(
             self, mock_read_users_file, mock_modify_users_file
     ):
-        pass
+        mock_read_users_file.return_value = self.users_data
+        expected_data = {"1": self.users_data["1"]}
+        crud_ = CRUD()
+        crud_.remove_user(2)
+        mock_modify_users_file.assert_called_once_with(expected_data)
 
     # TODO
     @patch("crud.CRUD.modify_users_file")
