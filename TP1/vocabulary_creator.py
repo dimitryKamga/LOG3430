@@ -68,7 +68,7 @@ class VocabularyCreator:
             if is_spam:
                 for wd in subject:
                     total_occ_spam_sub += 1
-                    # Add the word to the dictionary or update its occurence count
+                    # Add the word to the dictionary or update its occurrence count
                     if wd not in occ_spam_sub:
                         occ_spam_sub[wd] = 1
                     else:
@@ -76,7 +76,7 @@ class VocabularyCreator:
             else: 
                 for wd in subject:
                     total_occ_ham_sub += 1
-                    # Add the word to the dictionary or update its occurence count
+                    # Add the word to the dictionary or update its occurrence count
                     if wd not in occ_ham_sub:
                         occ_ham_sub[wd] = 1
                     else:
@@ -87,7 +87,7 @@ class VocabularyCreator:
             if is_spam:
                 for wd in body:
                     total_occ_spam_bod += 1
-                    # Add the word to the dictionary or update its occurence count
+                    # Add the word to the dictionary or update its occurrence count
                     if wd not in occ_spam_bod:
                         occ_spam_bod[wd] = 1
                     else:
@@ -95,7 +95,7 @@ class VocabularyCreator:
             else: 
                 for wd in body:
                     total_occ_ham_bod += 1
-                    # Add the word to the dictionary or update its occurence count
+                    # Add the word to the dictionary or update its occurrence count
                     if wd not in occ_ham_bod:
                         occ_ham_bod[wd] = 1
                     else:
@@ -119,7 +119,7 @@ class VocabularyCreator:
             json.dump(self.voc_data, outfile, indent=4)
 
         print("\n")
-        return True
+        return self.voc_data
 
     def load_dict(self):
         with open(self.train_set) as json_data:
