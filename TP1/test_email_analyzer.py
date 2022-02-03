@@ -13,26 +13,41 @@ class TestEmailAnalyzer(unittest.TestCase):
         self.clean_subject = []  # données pour mocker "return_value" du "clean_text"
         self.clean_body = []  # données pour mocker "return_value" du "clean_text"
         self.spam_ham_body_prob_true = (
-            0,
+            1,
             0,
         )  # données pour mocker "return_value" du "spam_ham_body_prob"
         self.spam_ham_subject_prob_true = (
-            0,
+            1,
             0,
         )  # données pour mocker "return_value" du "subject_spam_ham_prob"
         self.spam_ham_body_prob_false = (
             0,
-            0,
+            1,
         )  # données pour mocker "return_value" du "spam_ham_body_prob"
         self.spam_ham_subject_prob_false = (
             0,
-            0,
+            1,
         )  # données pour mocker "return_value" du "subject_spam_ham_prob"
         self.vocab = (
-            {}
+            {
+                "p_sub_spam":{
+                    "spam_sub": 1,
+                },
+                "p_sub_ham":{
+                    "ham_sub": 1,
+                },
+                "p_body_spam":{
+                    "spam_body": 1,
+                },
+                "p_body_ham":{
+                    "ham_body" : 1,
+                }
+            }
         )  # vocabulaire avec les valeurs de la probabilité pour mocker "return_value" du "load_dict"
-        self.spam_ham_body_prob_expected = 0, 0  # valeurs des probabilités attendues
-        self.spam_ham_subject_prob_expected = 0, 0  # valeurs des probabilités attendues
+        self.spam_ham_body_prob_expected_spam = 0.5925, 0.20375  # valeurs des probabilités attendues
+        self.spam_ham_subject_prob_expected_spam = 0.5925, 0.20375      # valeurs des probabilités attendues
+        self.spam_ham_body_prob_expected_ham = 0.29625, 0.4075  # valeurs des probabilités attendues
+        self.spam_ham_subject_prob_expected_ham = 0.29625, 0.4075  # valeurs des probabilités attendues
 
     def tearDown(self):
         pass
@@ -51,9 +66,8 @@ class TestEmailAnalyzer(unittest.TestCase):
         mock_spam_ham_body_prob.return_value = self.spam_ham_body_prob_true  
         mock_spam_ham_subject_prob.return_value = self.spam_ham_body_prob_true
         print("If spam > ham -> true : test executed")
-        self.assertTrue(emailAnalyzer.is_spam("", ""))
-        #pass
-
+        self.assertTrue(emailAnalyzer.is_spam(self.subject, self.body))
+        
     @patch("email_analyzer.EmailAnalyzer.clean_text")
     @patch("email_analyzer.EmailAnalyzer.spam_ham_body_prob")
     @patch("email_analyzer.EmailAnalyzer.spam_ham_subject_prob")
@@ -68,8 +82,7 @@ class TestEmailAnalyzer(unittest.TestCase):
         mock_spam_ham_body_prob.return_value = self.spam_ham_body_prob_false 
         mock_spam_ham_subject_prob.return_value = self.spam_ham_body_prob_false
         print("If spam < ham -> false : test executed")
-        self.assertFalse(emailAnalyzer.is_spam("", ""))
-        #pass
+        self.assertFalse(emailAnalyzer.is_spam(self.subject, self.body))
 
     @patch("email_analyzer.EmailAnalyzer.load_dict")
     def test_spam_ham_body_prob_Returns_expected_probability(self, mock_load_dict):
@@ -79,21 +92,8 @@ class TestEmailAnalyzer(unittest.TestCase):
         """
         emailAnalyzer = EmailAnalyzer()
         mock_load_dict.return_value = self.vocab
-        p_spam, p_ham = emailAnalyzer.spam_ham_body_prob("")
-        print("probability of the body performed correctly : test executed")
-        self.assertGreater(p_spam, p_ham)
-        
-        prob_spam_awaited = 0.5925
-        prob_ham_awaited = 0.20375 # la moitié de p_ham 
-        
-        # Vérification des probabilités 
-        self.assertEqual(p_spam, prob_spam_awaited)
-        self.assertEqual(p_ham, prob_ham_awaited)
-        
-        p_spam, p_ham = emailAnalyzer.spam_ham_body_prob("")
-        self.assertGreater(p_ham,
-                           p_spam)
-        #pass
+        print("probability of the body performed correctly (spam) : test executed")
+        self.assertEqual(emailAnalyzer.spam_ham_body_prob(["spam_body"]), self.spam_ham_body_prob_expected_spam) 
 
     @patch("email_analyzer.EmailAnalyzer.load_dict")
     def test_subject_spam_ham_prob_Returns_expected_probability(self, mock_load_dict):
@@ -103,12 +103,29 @@ class TestEmailAnalyzer(unittest.TestCase):
         """
         emailAnalyzer = EmailAnalyzer()
         mock_load_dict.return_value = self.vocab
-        p_spam, p_ham = emailAnalyzer.spam_ham_body_prob("")
-        print("probability of the sujet performed correctly : test executed")
-        self.assertGreater(p_spam, p_ham)
-        #pass
+        print("probability of the sujet performed correctly (spam) : test executed")
+        self.assertEqual(emailAnalyzer.spam_ham_subject_prob(["spam_sub"]), self.spam_ham_subject_prob_expected_spam)
 
     ###########################################
     #               CUSTOM TEST               #
     ###########################################
+    
+    """
+    Il est nécessaire de tester 2 cas supplémentaires pour avoir un coverage maximum.
+    Il faut vérifier que la probabilité est correctement calculé em fonction du "sujet" et du "body" pour le cas ham 
+    """
+    
+    @patch("email_analyzer.EmailAnalyzer.load_dict")
+    def test_spam_ham_body_prob_Returns_expected_probability_ham(self, mock_load_dict):
+        emailAnalyzer = EmailAnalyzer()
+        mock_load_dict.return_value = self.vocab
+        print("probability of the body performed correctly (ham) : test executed")
+        self.assertEqual(emailAnalyzer.spam_ham_body_prob(["ham_body"]), self.spam_ham_body_prob_expected_ham) 
+
+    @patch("email_analyzer.EmailAnalyzer.load_dict")
+    def test_subject_spam_ham_prob_Returns_expected_probability_ham(self, mock_load_dict):
+        emailAnalyzer = EmailAnalyzer()
+        mock_load_dict.return_value = self.vocab
+        print("probability of the sujet performed correctly (ham) : test executed")
+        self.assertEqual(emailAnalyzer.spam_ham_subject_prob(["ham_sub"]), self.spam_ham_subject_prob_expected_ham)
     
