@@ -181,9 +181,12 @@ class RENEGE:
         last_seen_message = self.crud.get_user_data(user_id, "Date_of_last_seen_message")
         first_seen_message = self.crud.get_user_data(user_id, "Date_of_first_seen_message")
 
-        if (first_seen_message * (ham_n + spam_n)) != 0:
-            trust1 = last_seen_message * ham_n / first_seen_message * (ham_n + spam_n)
-
+        try:
+            if (first_seen_message * (ham_n + spam_n)) != 0:
+                trust1 = last_seen_message * ham_n / first_seen_message * (ham_n + spam_n)
+        except RuntimeError:
+            return False
+        
         average = 0
         groups = self.crud.get_user_data(user_id, "Groups")
         for group_name in groups:
