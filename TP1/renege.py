@@ -1,4 +1,3 @@
-
 import json
 import sys
 from crud import CRUD
@@ -6,7 +5,6 @@ from email_analyzer import EmailAnalyzer
 
 
 class RENEGE:
-
     """Classe pour realiser le filtrage du spam en utilisant le fichier vocabulary.json et
     les classes CRUD et EmailAnalyzer"""
 
@@ -28,7 +26,6 @@ class RENEGE:
             raise e
             return False
 
-
     def process_email(self, new_emails):
         '''
         Description: fonction pour analyser chaque nouvel e-mail dans le 
@@ -41,15 +38,15 @@ class RENEGE:
         i = 0
         email_count = len(emails["dataset"])
         # Load emails
-        for email in emails["dataset"]:    
+        for email in emails["dataset"]:
             i += 1
             print("\rEmail " + str(i) + "/" + str(email_count), end="")
 
-            data    = email["mail"]
+            data = email["mail"]
             subject = data["Subject"]
-            name    = data["From"]
-            date    = data["Date"]            
-            body    = data["Body"]
+            name = data["From"]
+            date = data["Date"]
+            body = data["Body"]
             is_spam = data["Spam"]
 
             # Get registered data
@@ -61,9 +58,9 @@ class RENEGE:
                 if not self.crud.add_new_user(name, date):
                     return False
 
-                user_id = self.crud.get_user_id(name) 
+                user_id = self.crud.get_user_id(name)
 
-            # Update user's emails info
+                # Update user's emails info
             if is_spam == "true":
                 if not self.update_user_info(user_id, date, 1, 0):
                     return False
@@ -81,7 +78,7 @@ class RENEGE:
 
                 except RuntimeError:
                     return False
-        
+
         print("\n")
 
         return True
@@ -104,9 +101,13 @@ class RENEGE:
 
         # Update trust score 
         spam_n = self.crud.get_user_data(user_id, "SpamN") + new_email_spam
-        ham_n  = self.crud.get_user_data(user_id, "HamN") + new_email_ham
+        ham_n = self.crud.get_user_data(user_id, "HamN") + new_email_ham
 
-        trust_lvl = 50
+        try:
+            trust_lvl = self.compute_user_trust(user_id, spam_n, ham_n)
+        except:
+            trust_lvl = 50
+
         if (spam_n + ham_n) != 0:
             trust_lvl = ham_n / (spam_n + ham_n) * 100
             if trust_lvl > 100:
@@ -125,34 +126,33 @@ class RENEGE:
         Description: fonction pour modifier l'information de groupe dans lequel 
         l'utilisateur est present (trust level, etc).
         Sortie: bool, 'True' pour success, 'False' dans le cas de failure.
-        '''        
+        '''
         try:
             # Get list of users and update it
             users_list = self.crud.get_groups_data(group_id, "List_of_members")
-            user_name  = self.crud.get_user_data(user_id, "name")
+            user_name = self.crud.get_user_data(user_id, "name")
             if user_name not in users_list:
                 users_list.append(user_name)
 
             # Get data for trust update
             user_count = len(users_list)
-            trust_lvl  = 0      
+            trust_lvl = 0
 
             # Compute group's trust
             for user in users_list:
                 curr_user_id = self.crud.get_user_id(user)
-                trust_lvl   += self.crud.get_user_data(curr_user_id, "Trust")
+                trust_lvl += self.crud.get_user_data(curr_user_id, "Trust")
 
-            if(trust_lvl > 100):
-                trust_lvl = 100 
-            
-            # Update the group with the new trust level and the new member list
-            if self.crud.update_groups(group_id, "Trust", trust_lvl):     
+            if (trust_lvl > 100):
+                trust_lvl = 100
+
+                # Update the group with the new trust level and the new member list
+            if self.crud.update_groups(group_id, "Trust", trust_lvl):
                 return self.crud.update_groups(group_id, 'List_of_members', users_list)
 
             return False
         except RuntimeError:
             return False
-
 
     def get_user_email_list(self):
         '''
@@ -177,3 +177,22 @@ class RENEGE:
     ###########################################
     #             CUSTOM FUNCTION             #
     ###########################################
+    def compute_user_trust(self, user_id, spam_n, ham_n):
+        last_seen_message = self.crud.get_user_data(user_id, "Date_of_last_seen_message")
+        first_seen_message = self.crud.get_user_data(user_id, "Date_of_first_seen_message")
+
+        if first_seen_message * (ham_n + spam_n) != 0:
+            trust1 = last_seen_message * ham_n / first_seen_message * (ham_n + spam_n)
+
+        average = 0
+        groups = self.crud.get_user_data(user_id, "Groups")
+        for group_name in groups:
+            average += self.crud.get_groups_data(self.crud.get_group_id(group_name), "Trust")
+        trust2 = average / len(groups)
+
+        trust = (0.6 * trust1 + 0.4 * trust2) / 2
+        if trust2 < 60:
+            trust = trust2
+        if trust1 > 100:
+            trust = 100
+        return trust
