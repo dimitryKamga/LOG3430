@@ -143,7 +143,7 @@ class RENEGE:
                 curr_user_id = self.crud.get_user_id(user)
                 trust_lvl += self.crud.get_user_data(curr_user_id, "Trust")
 
-            if (trust_lvl > 100):
+            if trust_lvl > 100:
                 trust_lvl = 100
 
                 # Update the group with the new trust level and the new member list

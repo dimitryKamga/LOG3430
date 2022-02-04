@@ -1,6 +1,53 @@
 {
-    "p_sub_spam": {},
-    "p_sub_ham": {},
-    "p_body_spam": {},
-    "p_body_ham": {}
+    "p_sub_spam": {
+        "start": 0.125,
+        "shop": 0.125,
+        "costco": 0.125,
+        "today": 0.125,
+        "complimentari": 0.125,
+        "gold": 0.125,
+        "membership": 0.125,
+        "area": 0.125
+    },
+    "p_sub_ham": {
+        "start": 0.25,
+        "date": 0.25,
+        "hourahead": 0.25,
+        "hour": 0.25
+    },
+    "p_body_spam": {
+        "start": 0.06666666666666667,
+        "shop": 0.06666666666666667,
+        "costco": 0.06666666666666667,
+        "today": 0.06666666666666667,
+        "free": 0.06666666666666667,
+        "gold": 0.13333333333333333,
+        "membership": 0.13333333333333333,
+        "give": 0.06666666666666667,
+        "away": 0.06666666666666667,
+        "limit": 0.06666666666666667,
+        "number": 0.06666666666666667,
+        "area": 0.06666666666666667,
+        "kklynsz": 0.06666666666666667
+    },
+    "p_body_ham": {
+        "start": 0.05,
+        "date": 0.05,
+        "hourahead": 0.05,
+        "hour": 0.05,
+        "ancillari": 0.05,
+        "schedul": 0.15,
+        "award": 0.05,
+        "varianc": 0.05,
+        "detect": 0.05,
+        "log": 0.05,
+        "messag": 0.05,
+        "pars": 0.05,
+        "file": 0.05,
+        "portland": 0.05,
+        "westdesk": 0.05,
+        "california": 0.05,
+        "iso": 0.05,
+        "final": 0.05
+    }
 }
