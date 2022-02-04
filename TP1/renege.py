@@ -186,7 +186,7 @@ class RENEGE:
                 trust1 = last_seen_message * ham_n / first_seen_message * (ham_n + spam_n)
         except RuntimeError:
             return False
-        
+
         average = 0
         groups = self.crud.get_user_data(user_id, "Groups")
         for group_name in groups:
