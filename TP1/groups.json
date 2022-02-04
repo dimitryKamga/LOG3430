@@ -1,1 +1,1 @@
-{"0": {"name": "default", "Trust": 50, "List_of_members": []}}
+{"1": {"name": "default", "Trust": 50, "List_of_members": ["alex@gmail.com", "mark@mail.com", "user3@gmail.fr"]}, "2": {"name": "friends", "Trust": 90, "List_of_members": ["alex@gmail.com"]}, "0": {"name": "group3", "Trust": 90, "List_of_members": []}}
