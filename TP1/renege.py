@@ -180,6 +180,8 @@ class RENEGE:
     def compute_user_trust(self, user_id, spam_n, ham_n):
         last_seen_message = self.crud.get_user_data(user_id, "Date_of_last_seen_message")
         first_seen_message = self.crud.get_user_data(user_id, "Date_of_first_seen_message")
+        groups = self.crud.get_user_data(user_id, "Groups")
+        average = 0
 
         try:
             if (first_seen_message * (ham_n + spam_n)) != 0:
@@ -187,8 +189,6 @@ class RENEGE:
         except RuntimeError:
             return False
 
-        average = 0
-        groups = self.crud.get_user_data(user_id, "Groups")
         for group_name in groups:
             average += self.crud.get_groups_data(self.crud.get_group_id(group_name), "Trust")
 
