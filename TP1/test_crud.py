@@ -213,7 +213,6 @@ class TestCRUD(unittest.TestCase):
         crud_ = CRUD()
         self.assertEqual(crud_.get_group_id("default"), '1')
 
-    # TODO
     @patch("crud.CRUD.modify_users_file")
     @patch("crud.CRUD.read_users_file")
     # Modify_user_file mock est inutile pour tester False pour update
@@ -223,9 +222,12 @@ class TestCRUD(unittest.TestCase):
         """Il faut utiliser les mocks pour 'read_users_file' et 'modify_users_file'
         (ou selon votre realisation)
         """
-        pass
+        mock_read_users_file.return_value = self.users_data
 
-    # TODO
+        crud_ = CRUD()
+        self.assertFalse(crud_.update_users(-1, "data", "data"))
+        mock_modify_users_file.assert_not_called()
+
     @patch("crud.CRUD.modify_users_file")
     @patch("crud.CRUD.read_users_file")
     def test_update_users_Returns_false_for_invalid_field(
@@ -234,9 +236,12 @@ class TestCRUD(unittest.TestCase):
         """Il faut utiliser les mocks pour 'read_users_file' et 'modify_users_file'
         (ou selon votre realisation)
         """
-        pass
+        mock_read_users_file.return_value = self.users_data
 
-    # TODO
+        crud_ = CRUD()
+        self.assertFalse(crud_.update_users(1, "field", "data"))
+        mock_modify_users_file.assert_not_called()
+
     @patch("crud.CRUD.modify_users_file")
     @patch("crud.CRUD.read_users_file")
     def test_update_users_Passes_correct_data_to_modify_users_file(
@@ -246,9 +251,14 @@ class TestCRUD(unittest.TestCase):
         (ou selon votre realisation)
         Il faut utiliser ".assert_called_once_with(expected_data)"
         """
-        pass
+        mock_read_users_file.return_value = self.users_data
+        user_data_final = copy.deepcopy(self.users_data)
+        user_data_final["1"]["name"] = "test@gmail.com"
 
-    # TODO
+        crud_ = CRUD()
+        crud_.update_users("1", "name", "test@gmail.com")
+        mock_modify_users_file.assert_called_once_with(user_data_final)
+
     @patch("crud.CRUD.modify_groups_file")
     @patch("crud.CRUD.read_groups_file")
     def test_update_groups_Returns_false_for_invalid_id(
@@ -257,9 +267,12 @@ class TestCRUD(unittest.TestCase):
         """Il faut utiliser les mocks pour 'read_groups_file' et 'modify_groups_file'
         (ou selon votre realisation)
         """
-        pass
+        mock_read_groups_file.return_value = self.groups_data
 
-    # TODO
+        crud_ = CRUD()
+        self.assertFalse(crud_.update_groups(-1, "field", "data"))
+        mock_modify_groups_file.assert_not_called()
+
     @patch("crud.CRUD.modify_groups_file")
     @patch("crud.CRUD.read_groups_file")
     def test_update_groups_Returns_false_for_invalid_field(
@@ -268,9 +281,12 @@ class TestCRUD(unittest.TestCase):
         """Il faut utiliser les mocks pour 'read_groups_file' et 'modify_groups_file'
         (ou selon votre realisation)
         """
-        pass
+        mock_read_groups_file.return_value = self.groups_data
 
-    # TODO
+        crud_ = CRUD()
+        self.assertFalse(crud_.update_groups(1, "dofault", "test"))
+        mock_modify_groups_file.assert_not_called()
+
     @patch("crud.CRUD.modify_groups_file")
     @patch("crud.CRUD.read_groups_file")
     def test_update_groups_Passes_correct_data_to_modify_groups_file(
@@ -280,7 +296,13 @@ class TestCRUD(unittest.TestCase):
         (ou selon votre realisation)
         Il faut utiliser ".assert_called_once_with(expected_data)"
         """
-        pass
+        mock_read_groups_file.return_value = self.groups_data
+        expected_data = copy.deepcopy(self.groups_data)
+        expected_data["1"]["name"] = "test"
+
+        crud_ = CRUD()
+        crud_.update_groups(1, "name", "test")
+        mock_modify_groups_file.assert_called_once_with(expected_data)
 
     @patch("crud.CRUD.modify_users_file")
     @patch("crud.CRUD.read_users_file")
@@ -304,70 +326,101 @@ class TestCRUD(unittest.TestCase):
         crud_.remove_user(2)
         mock_modify_users_file.assert_called_once_with(expected_data)
 
-    # TODO
     @patch("crud.CRUD.modify_users_file")
     @patch("crud.CRUD.read_users_file")
     def test_remove_user_group_Returns_false_for_invalid_id(
             self, mock_read_users_file, mock_modify_users_file
     ):
-        pass
+        mock_read_users_file.return_value = self.users_data
 
-    # TODO
+        crud_ = CRUD()
+        self.assertFalse(crud_.remove_user_group(9, "default"))
+        mock_modify_users_file.assert_not_called()
+
     @patch("crud.CRUD.modify_users_file")
     @patch("crud.CRUD.read_users_file")
     def test_remove_user_group_Returns_false_for_invalid_group(
             self, mock_read_users_file, mock_modify_users_file
     ):
-        pass
+        mock_read_users_file.return_value = self.users_data
 
-    # TODO
+        crud_ = CRUD()
+        self.assertEqual(crud_.remove_user_group(1, "dofault"), False)
+        mock_modify_users_file.assert_not_called()
+
     @patch("crud.CRUD.modify_users_file")
     @patch("crud.CRUD.read_users_file")
     def test_remove_user_group_Passes_correct_value_to_modify_users_file(
             self, mock_read_users_file, mock_modify_users_file
     ):
-        pass
+        mock_read_users_file.return_value = self.users_data
+        group_data_final = copy.deepcopy(self.users_data)
+        group_data_final["1"]["Groups"].remove("default")
 
-    # TODO
+        crud_ = CRUD()
+        crud_.remove_user_group("1", "default")
+        mock_modify_users_file.assert_called_once_with(group_data_final)
+
     @patch("crud.CRUD.modify_groups_file")
     @patch("crud.CRUD.read_groups_file")
     def test_remove_group_Returns_false_for_invalid_id(
             self, mock_read_groups_file, mock_modify_groups_file
     ):
-        pass
+        mock_read_groups_file.return_value = self.groups_data
 
-    # TODO
+        crud_ = CRUD()
+        self.assertFalse(crud_.remove_group(-1))
+        mock_modify_groups_file.assert_not_called();
+
     @patch("crud.CRUD.modify_groups_file")
     @patch("crud.CRUD.read_groups_file")
     def test_remove_group_Passes_correct_value_to_modify_groups_file(
             self, mock_read_groups_file, mock_modify_groups_file
     ):
-        pass
+        mock_read_groups_file.return_value = self.groups_data
+        group_data_final = copy.deepcopy(self.groups_data)
+        group_data_final.pop("1")
 
-    # TODO
+        crud_ = CRUD()
+        crud_.remove_group("1")
+        mock_modify_groups_file.assert_called_once_with(group_data_final)
+
     @patch("crud.CRUD.modify_groups_file")
     @patch("crud.CRUD.read_groups_file")
     def test_remove_group_member_Returns_false_for_invalid_id(
             self, mock_read_groups_file, mock_modify_groups_file
     ):
-        pass
+        mock_read_groups_file.return_value = self.groups_data
 
-    # TODO
+        crud_ = CRUD()
+        self.assertFalse(crud_.remove_group_member(-1, "test@gmail.com"))
+        mock_modify_groups_file.assert_not_called()
+
     @patch("crud.CRUD.modify_groups_file")
     @patch("crud.CRUD.read_groups_file")
     def test_remove_group_member_Returns_false_for_invalid_group_member(
             self, mock_read_groups_file, mock_modify_groups_file
     ):
-        pass
+        mock_read_groups_file.return_value = self.groups_data
 
-    # TODO
+        crud_ = CRUD()
+        self.assertFalse(crud_.remove_group_member(0, "dofault"))
+        mock_modify_groups_file.assert_not_called()
+
     @patch("crud.CRUD.modify_groups_file")
     @patch("crud.CRUD.read_groups_file")
     def test_remove_group_member_Passes_correct_value_to_modify_groups_file(
             self, mock_read_groups_file, mock_modify_groups_file
     ):
-        pass
+        mock_read_groups_file.return_value = self.groups_data
+        group_data_final = copy.deepcopy(self.groups_data)
+        group_data_final["1"]["List_of_members"] = ["mark@mail.com"]
+
+        crud_ = CRUD()
+        crud_.remove_group_member("1", "alex@gmail.com")
+        mock_modify_groups_file.assert_called_once_with(group_data_final)
 
     ###########################################
     #               CUSTOM TEST               #
     ###########################################
+
