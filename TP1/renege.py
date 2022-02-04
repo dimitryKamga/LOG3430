@@ -197,6 +197,6 @@ class RENEGE:
             trust = 100
 
         if (trust <= 0) or (trust <= 100):
+            return trust
+        else:
             return False
-
-        return trust
