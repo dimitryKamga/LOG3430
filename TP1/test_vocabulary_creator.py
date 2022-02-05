@@ -96,13 +96,12 @@ class TestVocabularyCreator(unittest.TestCase):
          if faut utiliser self.assertEqual(appel_a_create_vocab(), self.vocab_expected)
         """
         mock_load_dict.return_value = self.mails
-        values = [self.clean_subject_spam, self.clean_subject_ham, self.clean_body_spam, self.clean_body_ham]
+        values = [self.clean_body_ham, self.clean_subject_ham, self.clean_body_spam, self.clean_subject_spam]
         mock_write_data_to_vocab_file.return_value = True
 
         mock_clean_text.side_effect = values.pop()
         vc_ = VocabularyCreator()
-        vc_.create_vocab()
-        print(vc_.voc_data)
+        self.assertEqual(vc_.create_vocab(), True)
         self.assertEqual(vc_.voc_data, self.vocab_expected)
 
     ###########################################
