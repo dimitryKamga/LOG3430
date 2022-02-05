@@ -100,3 +100,23 @@ class TestVocabularyCreator(unittest.TestCase):
     ###########################################
     #               CUSTOM TEST               #
     ###########################################
+
+    def test_write_data_to_vocab_file_returns_false(
+            self
+    ):
+        vc_ = VocabularyCreator()
+        vc_.vocabulary = []
+        self.assertEqual(vc_.write_data_to_vocab_file(self.vocab_expected), False)
+
+    def test_write_data_to_vocab_file_return_true(
+            self
+    ):
+        vc_ = VocabularyCreator()
+        vc_.vocabulary = "file_test"
+        self.assertEqual(vc_.write_data_to_vocab_file(self.vocab_expected), True)
+
+    @patch("text_cleaner.TextCleaning.clean_text")
+    def test_clean_text_should_return_value_of_text_cleaning_clean_text(self, mock_clean_text):
+        vc_ = VocabularyCreator()
+        mock_clean_text.return_value = self.clean_body_spam
+        self.assertEqual(vc_.clean_text(self.clean_body_spam), self.clean_body_spam)
