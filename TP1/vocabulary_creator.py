@@ -119,7 +119,7 @@ class VocabularyCreator:
             json.dump(self.voc_data, outfile, indent=4)
 
         print("\n")
-        return self.write_data_to_vocab_file(self.voc_data)
+        return True
 
     def load_dict(self):
         with open(self.train_set) as json_data:

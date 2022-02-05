@@ -5,76 +5,69 @@ from unittest.mock import patch
 
 class TestVocabularyCreator(unittest.TestCase):
     def setUp(self):
-        self.mails = {"dataset": [  # données pour mocker "return_value" du "load_dict"
-            {
-                "mail": {
-                    "Subject": " start shopping at costco today with a complimentary gold membership in your area .",
-                    "From": "SA_and_HP@paris.com",
-                    "Date": "2005-06-22",
-                    "Body": "start shopping at costco today with a free gold membership . we re giving away a limited number of gold memberships in your area .\nkklynsz\n",
-                    "Spam": "true",
-                    "File": "enronds//enron2/spam/2128.2005-06-22.SA_and_HP.spam.txt"
-                }
-            },
-            {
-                "mail": {
-                    "Subject": " start date : 12 28 01 ; hourahead hour : 9 ;",
-                    "From": "williams@paris.com",
-                    "Date": "2001-12-28",
-                    "Body": "start date : 12 28 01 ; hourahead hour : 9 ; no ancillary schedules awarded . no variances detected .\nlog messages :\nparsing file - - > > o : portland westdesk california scheduling iso final schedules 2001122809 . tx\n",
-                    "Spam": "false",
-                    "File": "enronds//enron4/ham/3821.2001-12-28.williams.ham.txt"
-                }
-            },
-        ]}
-        self.clean_subject_spam = ["spam", "subject", "log"]  # données pour mocker "return_value" du "clean_text"
-        self.clean_body_spam = ["spam", "body"]  # données pour mocker "return_value" du "clean_text"
-        self.clean_subject_ham = ["spam", "subject", "security",
-                                  "poly"]  # données pour mocker "return_value" du "clean_text"
-        self.clean_body_ham = ["body", "body"]  # données pour mocker "return_value" du "clean_text"
+        self.mails = {
+            "dataset": [
+                {
+                    "mail": {
+                        "Subject": " la uncle rummie s hangover pills ! absolutely new ! naeyc",
+                        "From": "GP@paris.com",
+                        "Date": "2004-08-15",
+                        "Body": "a recent survey shows that it takes an average of just 3",
+                        "Spam": "true",
+                        "File": "enronds//enron4/spam/2030.2004-08-15.GP.spam.txt"
+                    }
+
+                },
+                {
+                    "mail": {
+                        "Subject": " enrononline launch monday 18 th .",
+                        "From": "farmer@paris.com",
+                        "Date": "2000-09-15",
+                        "Body": "we are pleased to announce that as of monday sept",
+                        "Spam": "false",
+                        "File": "enronds//enron1/ham/2256.2000-09-15.farmer.ham.txt"
+                    }
+
+                },
+            ]
+        }  # données pour mocker "return_value" du "load_dict"
+        self.clean_subject_spam = [
+            "la", "uncle", "rummie", "s", "hangover", "pills", "absolutely", "new", "naeyc", "uncle"
+        ]  # données pour mocker "return_value" du "clean_text"
+        self.clean_body_spam = [
+            "a", "recent", "survey", "shows", "that", "it", "takes", "an", "average", "of", "just", "recent"
+        ]  # données pour mocker "return_value" du "clean_text"
+        self.clean_subject_ham = [
+            "enrononline", "launch", "monday", "monday"
+        ]  # données pour mocker "return_value" du "clean_text"
+        self.clean_body_ham = [
+            "we", "are", "pleased", "to", "announce", "that", "as", "of", "monday", "sept", "we"
+        ]  # données pour mocker "return_value" du "clean_text"
         self.vocab_expected = {
-            'p_sub_spam': {
-                "start": 1 / 8,
-                "shop": 1 / 8,
-                "costco": 1 / 8,
-                "today": 1 / 8,
-                "complimentary": 1 / 8,
-                "gold": 1 / 8,
-                "member": 1 / 8,
-                "area": 1 / 8
-            },
-            'p_body_spam': {
-                "start": 1 / 13,
-                "shop": 1 / 13,
-                "costco": 1 / 13,
-                "today": 1 / 13,
-                "complimentary": 1 / 13,
-                "gold": 2 / 13,
-                "member": 2 / 13,
-                "area": 1 / 13,
-                "give": 1 / 13,
-                "limited": 1 / 13,
-                "number": 1 / 13
-            },
-            'p_sub_ham': {
-                "start": 1 / 3,
-                "date": 1 / 3,
-                "hour": 1 / 3
-            },
-            'p_body_ham': {
-                "start": 1 / 12,
-                "date": 1 / 12,
-                "hour": 1 / 12,
-                "schedule": 2 / 12,
-                "variance": 1 / 12,
-                "detect": 1 / 12,
-                "message": 1 / 12,
-                "file": 1 / 12,
-                "portland": 1 / 12,
-                "california": 1 / 12,
-                "final": 1 / 12
-            },
-        }  # vocabulaire avec les valeurs de la probabilité calculées correctement
+            'p_sub_spam':
+                {'uncl': 0.14285714285714285,
+                 'rummi': 0.14285714285714285,
+                 'hangov': 0.14285714285714285,
+                 'pill': 0.14285714285714285,
+                 'absolut': 0.14285714285714285,
+                 'new': 0.14285714285714285,
+                 'naeyc': 0.14285714285714285},
+            'p_sub_ham':
+                {'enrononlin': 0.3333333333333333,
+                 'launch': 0.3333333333333333,
+                 'monday': 0.3333333333333333},
+            'p_body_spam':
+                {'recent': 0.2,
+                 'survey': 0.2,
+                 'show': 0.2,
+                 'take': 0.2,
+                 'averag': 0.2},
+            'p_body_ham':
+                {'pleas': 0.25,
+                 'announc': 0.25,
+                 'monday': 0.25,
+                 'sept': 0.25}
+        }
 
     def tearDown(self):
         pass
@@ -96,10 +89,10 @@ class TestVocabularyCreator(unittest.TestCase):
          if faut utiliser self.assertEqual(appel_a_create_vocab(), self.vocab_expected)
         """
         mock_load_dict.return_value = self.mails
-        values = [self.clean_body_ham, self.clean_subject_ham, self.clean_body_spam, self.clean_subject_spam]
         mock_write_data_to_vocab_file.return_value = True
 
-        mock_clean_text.side_effect = values.pop()
+        mock_clean_text.side_effect = [self.clean_body_ham, self.clean_subject_ham, self.clean_body_spam,
+                                       self.clean_subject_spam]
         vc_ = VocabularyCreator()
         self.assertEqual(vc_.create_vocab(), True)
         self.assertEqual(vc_.voc_data, self.vocab_expected)
