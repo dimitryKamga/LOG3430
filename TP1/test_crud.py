@@ -257,7 +257,7 @@ class TestCRUD(unittest.TestCase):
         user_data_final["1"]["name"] = "test@gmail.com"
 
         crud_ = CRUD()
-        self.assertFalse(crud_.update_users(1,"name","/*885"))
+        self.assertFalse(crud_.update_users(1, "name", "/*885"))
         crud_.update_users(1, "name", "test@gmail.com")
         mock_modify_users_file.assert_called_once_with(user_data_final)
 
@@ -303,7 +303,7 @@ class TestCRUD(unittest.TestCase):
         expected_data["1"]["name"] = "test"
 
         crud_ = CRUD()
-        self.assertFalse(crud_.update_groups(1,"name",""))
+        self.assertFalse(crud_.update_groups(1, "name", ""))
 
         crud_.update_groups(1, "name", "test")
         mock_modify_groups_file.assert_called_once_with(expected_data)
@@ -431,39 +431,38 @@ class TestCRUD(unittest.TestCase):
     @patch("crud.CRUD.read_groups_file")
     @patch("crud.CRUD.read_users_file")
     def test_add_new_user_return_false_on_email_unicity_and_format(
-        self,mock_read_groups_file,mock_read_users_file
+            self, mock_read_groups_file, mock_read_users_file
     ):
         mock_read_users_file.return_value = self.users_data
-        mock_read_groups_file.return_value= self.groups_data
+        mock_read_groups_file.return_value = self.groups_data
 
         crud_ = CRUD()
         crud_.users_lookup = ["test@gmail.com"]
-        self.assertFalse(crud_.add_new_user("test@gmail.com","2022-02-03"))
-        self.assertFalse(crud_.add_new_user("testgmail.com","2022-02-03"))
+        self.assertFalse(crud_.add_new_user("test@gmail.com", "2022-02-03"))
+        self.assertFalse(crud_.add_new_user("testgmail.com", "2022-02-03"))
 
     @patch("crud.CRUD.read_users_file")
     def test_get_new_user_id_when_adding_correct_user(
-        self,mock_read_users_file):
+            self, mock_read_users_file):
         mock_read_users_file.return_value = self.users_data
 
         crud_ = CRUD()
-        crud_.add_new_user("user3@gmail.fr","2022-02-03")
-        self.assertEqual(crud_.get_new_user_id(),'3')
+        crud_.add_new_user("user3@gmail.fr", "2022-02-03")
+        self.assertEqual(crud_.get_new_user_id(), '3')
 
     @patch("crud.CRUD.read_groups_file")
     def test_get_new_group_id_when_adding_correct_group(
-        self,mock_read_groups_file):
-        mock_read_groups_file.return_value= self.groups_data
+            self, mock_read_groups_file):
+        mock_read_groups_file.return_value = self.groups_data
 
         crud_ = CRUD()
-        crud_.add_new_group("group3",90,[])
-        self.assertEqual(crud_.get_new_group_id(),'3')
-
+        crud_.add_new_group("group3", 90, [])
+        self.assertEqual(crud_.get_new_group_id(), '3')
 
     @patch("crud.CRUD.read_groups_file")
     @patch("crud.CRUD.read_users_file")
     def test_add_new_group_fail_name_in_groups_lookup(
-        self,mock_read_groups_file,mock_read_users_file
+            self, mock_read_groups_file, mock_read_users_file
     ):
         mock_read_users_file.return_value = self.users_data
         mock_read_groups_file.return_value = self.groups_data
@@ -471,27 +470,25 @@ class TestCRUD(unittest.TestCase):
         crud_ = CRUD()
         crud_.users_lookup = ['memberOne']
         crud_.groups_lookup = ["test@gmail.com"]
-        self.assertFalse(crud_.add_new_group("test",100,[""]))
-        self.assertFalse(crud_.add_new_group("test",100,['memberOne', 'memberTwo']))
+        self.assertFalse(crud_.add_new_group("test", 100, [""]))
+        self.assertFalse(crud_.add_new_group("test", 100, ['memberOne', 'memberTwo']))
 
     @patch("crud.CRUD.read_groups_file")
     @patch("crud.CRUD.read_users_file")
     @patch("crud.CRUD.get_user_id")
     def test_add_new_group_Passes_correct_values(
-        self,mock_get_user_id,mock_read_groups_file,mock_read_users_file
+            self, mock_get_user_id, mock_read_groups_file, mock_read_users_file
     ):
         mock_read_users_file.return_value = self.users_data
-        mock_read_groups_file.return_value= self.groups_data
+        mock_read_groups_file.return_value = self.groups_data
 
         mock_get_user_id.return_value = "1"
 
         crud_ = CRUD()
         crud_.users_data = copy.deepcopy(self.users_data)
         crud_.users_lookup = ["alex@gmail.com"]
-        crud_.add_new_group("group3",100,["alex@gmail.com"])
+        crud_.add_new_group("group3", 100, ["alex@gmail.com"])
         self.assertTrue("group3" in crud_.users_data["1"]["Groups"])
-
-
 
     @patch("crud.CRUD.modify_users_file")
     @patch("crud.CRUD.read_users_file")
@@ -504,10 +501,9 @@ class TestCRUD(unittest.TestCase):
         user_data_final["1"]["Date_of_last_seen_message"] = 1598918400.0
 
         crud_ = CRUD()
-        self.assertFalse(crud_.update_users(1,"Date_of_last_seen_message", date.strftime('2020-07-08')))
+        self.assertFalse(crud_.update_users(1, "Date_of_last_seen_message", date.strftime('2020-07-08')))
         crud_.update_users(1, "Date_of_last_seen_message", date.strftime('%Y-%m-%d'))
         mock_modify_users_file.assert_called_once_with(user_data_final)
-
 
     @patch("crud.CRUD.modify_users_file")
     @patch("crud.CRUD.read_users_file")
@@ -520,47 +516,43 @@ class TestCRUD(unittest.TestCase):
         user_data_final["1"]["Date_of_first_seen_message"] = 1596844800.0
 
         crud_ = CRUD()
-        self.assertFalse(crud_.update_users(1,"Date_of_first_seen_message", date.strftime('2022-07-08')))
+        self.assertFalse(crud_.update_users(1, "Date_of_first_seen_message", date.strftime('2022-07-08')))
         crud_.update_users(1, "Date_of_first_seen_message", date.strftime('%Y-%m-%d'))
         mock_modify_users_file.assert_called_once_with(user_data_final)
 
     @patch("crud.CRUD.modify_users_file")
     @patch("crud.CRUD.read_users_file")
     def test_update_users_Passes_correct_and_invalid_Trust_data_to_modify_users(
-        self, mock_read_users_file, mock_modify_users_file
+            self, mock_read_users_file, mock_modify_users_file
     ):
-
         mock_read_users_file.return_value = self.users_data
         expected_data = copy.deepcopy(self.users_data)
         expected_data["1"]["Trust"] = 100
 
         crud_ = CRUD()
-        self.assertFalse(crud_.update_users(1,"Trust",-1))
+        self.assertFalse(crud_.update_users(1, "Trust", -1))
         crud_.update_users(1, "Trust", 100)
         mock_modify_users_file.assert_called_once_with(expected_data)
-
 
     @patch("crud.CRUD.modify_users_file")
     @patch("crud.CRUD.read_users_file")
     def test_update_users_Passes_correct_and_invalid_SpamN_data_to_modify_users(
-        self, mock_read_users_file, mock_modify_users_file
+            self, mock_read_users_file, mock_modify_users_file
     ):
-
         mock_read_users_file.return_value = self.users_data
         expected_data = copy.deepcopy(self.users_data)
         expected_data["1"]["SpamN"] = 100
 
         crud_ = CRUD()
-        self.assertFalse(crud_.update_users(1,"SpamN",-1))
+        self.assertFalse(crud_.update_users(1, "SpamN", -1))
         crud_.update_users(1, "SpamN", 100)
         mock_modify_users_file.assert_called_once_with(expected_data)
-
 
     @patch("crud.CRUD.read_groups_file")
     @patch("crud.CRUD.modify_users_file")
     @patch("crud.CRUD.read_users_file")
     def test_update_users_Passes_correct_Groups_modify_user_file(
-        self, mock_read_users_file, mock_modify_users_file, mock_read_groups_file
+            self, mock_read_users_file, mock_modify_users_file, mock_read_groups_file
     ):
         mock_read_users_file.return_value = self.users_data
         mock_read_groups_file.return_value = self.groups_data
@@ -573,7 +565,7 @@ class TestCRUD(unittest.TestCase):
     @patch("crud.CRUD.modify_users_file")
     @patch("crud.CRUD.read_users_file")
     def test_update_users_return_False_on_invalid_user_Groups(
-        self, mock_read_users_file, mock_modify_users_file, mock_read_groups_file
+            self, mock_read_users_file, mock_modify_users_file, mock_read_groups_file
     ):
         mock_read_users_file.return_value = self.users_data
         mock_read_groups_file.return_value = self.groups_data
@@ -585,7 +577,7 @@ class TestCRUD(unittest.TestCase):
     @patch("crud.CRUD.modify_groups_file")
     @patch("crud.CRUD.read_groups_file")
     def test_update_groups_Passes_correct_and_invalid_field_Trust_data_to_modify_groups_file(
-        self, mock_read_groups_file, mock_modify_groups_file
+            self, mock_read_groups_file, mock_modify_groups_file
     ):
         mock_read_groups_file.return_value = self.groups_data
         expected_data = copy.deepcopy(self.groups_data)
@@ -600,10 +592,10 @@ class TestCRUD(unittest.TestCase):
     @patch("crud.CRUD.read_groups_file")
     @patch("crud.CRUD.modify_groups_file")
     def test_update_groups_Passes_correct_on_invalid_List_of_members(
-        self,
-        mock_read_users_file,
-        mock_read_groups_file,
-        mock_modify_groups_file,
+            self,
+            mock_read_users_file,
+            mock_read_groups_file,
+            mock_modify_groups_file,
     ):
         mock_read_users_file.return_value = self.users_data
         mock_read_groups_file.return_value = self.groups_data
