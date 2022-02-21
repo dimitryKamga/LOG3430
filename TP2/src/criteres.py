@@ -228,19 +228,6 @@ def get_vns_tests():
             for u in range(2):
                 for g in range(2):
                     pred = is_message_spam_dnf(p, h, u, g)
-                    if not test_cases_found and not pred and is_message_spam_dnf(not p, h, u, g):
-                        test_cases_found = True
-                        test_case = f"<[P = {p}, H = {h}, U = {u}, G = {g}], S = {pred}>"
-                        if test_case not in tests:
-                            tests.append(test_case)
-
-    # PPF pour clause H
-    test_cases_found = False
-    for p in range(2):
-        for h in range(2):
-            for u in range(2):
-                for g in range(2):
-                    pred = is_message_spam_dnf(p, h, u, g)
                     if not test_cases_found and not pred and is_message_spam_dnf(p, not h, u, g):
                         test_cases_found = True
                         test_case = f"<[P = {p}, H = {h}, U = {u}, G = {g}], S = {pred}>"
