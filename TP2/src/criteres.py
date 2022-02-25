@@ -34,28 +34,28 @@ def get_racc_tests():
     for h in range(2):
         for u in range(2):
             for g in range(2):
-                pred_true = is_message_a_spam(True, h, u, g)
-                pred_false = is_message_a_spam(False, h, u, g)
-                if not test_cases_found and pred_true != pred_false:
+                predicat1 = is_message_a_spam(True, h, u, g)
+                predicat2 = is_message_a_spam(False, h, u, g)
+                if not test_cases_found and predicat1 != predicat2:
                     test_cases_found = True
-                    d1 = f"<[P = 1, H = {h}, U = {u}, G = {g}],S = {pred_true}>"
-                    d2 = f"<[P = 0, H = {h}, U = {u}, G = {g}],S = {pred_false}>"
+                    d1 = f"<[P = 1, H = {h}, U = {u}, G = {g}],S = {predicat1}>"
+                    d2 = f"<[P = 0, H = {h}, U = {u}, G = {g}],S = {predicat2}>"
                     if d1 not in tests:
-                        tests.append(d1)
+                            tests.append(d1)
                     if d2 not in tests:
-                        tests.append(d2)
+                            tests.append(d2)
     test_cases_found = False
 
     # H est la clause majeure
     for p in range(2):
         for u in range(2):
             for g in range(2):
-                pred_true = bool(is_message_a_spam(p, True, u, g))
-                pred_false = bool(is_message_a_spam(p, False, u, g))
-                if not test_cases_found and pred_true != pred_false:
+                predicat1 = bool(is_message_a_spam(p, True, u, g))
+                predicat2 = bool(is_message_a_spam(p, False, u, g))
+                if not test_cases_found and predicat1 != predicat2:
                     test_cases_found = True
-                    d1 = f"<[P = {p}, H = 1, U = {u}, G = {g}],S = {pred_true}>"
-                    d2 = f"<[P = {p}, H = 0, U = {u}, G = {g}],S = {pred_false}>"
+                    d1 = f"<[P = {p}, H = 1, U = {u}, G = {g}],S = {predicat1}>"
+                    d2 = f"<[P = {p}, H = 0, U = {u}, G = {g}],S = {predicat2}>"
                     if d1 not in tests:
                         tests.append(d1)
                     if d2 not in tests:
@@ -66,12 +66,12 @@ def get_racc_tests():
     for p in range(2):
         for h in range(2):
             for g in range(2):
-                pred_true = is_message_a_spam(p, h, True, g)
-                pred_false = is_message_a_spam(p, h, False, g)
-                if not test_cases_found and pred_true != pred_false:
+                predicat1 = is_message_a_spam(p, h, True, g)
+                predicat2 = is_message_a_spam(p, h, False, g)
+                if not test_cases_found and predicat1 != predicat2:
                     test_cases_found = True
-                    d1 = f"<[P = {p}, H = {h}, U = 1, G = {g}],S = {pred_true}>"
-                    d2 = f"<[P = {p}, H = {h}, U = 0, G = {g}],S = {pred_false}>"
+                    d1 = f"<[P = {p}, H = {h}, U = 1, G = {g}],S = {predicat1}>"
+                    d2 = f"<[P = {p}, H = {h}, U = 0, G = {g}],S = {predicat2}>"
                     if d1 not in tests:
                         tests.append(d1)
                     if d2 not in tests:
@@ -82,12 +82,12 @@ def get_racc_tests():
     for p in range(2):
         for h in range(2):
             for u in range(2):
-                pred_true = is_message_a_spam(p, h, u, True)
-                pred_false = is_message_a_spam(p, h, u, False)
-                if not test_cases_found and pred_true != pred_false:
+                predicat1 = is_message_a_spam(p, h, u, True)
+                predicat2 = is_message_a_spam(p, h, u, False)
+                if not test_cases_found and predicat1 != predicat2:
                     test_cases_found = True
-                    d1 = f"<[P = {p}, H = {h}, U = {u}, G = 1],S = {pred_true}>"
-                    d2 = f"<[P = {p}, H = {h}, U = {u}, G = 0],S = {pred_false}>"
+                    d1 = f"<[P = {p}, H = {h}, U = {u}, G = 1],S = {predicat1}>"
+                    d2 = f"<[P = {p}, H = {h}, U = {u}, G = 0],S = {predicat2}>"
                     if d1 not in tests:
                         tests.append(d1)
                     if d2 not in tests:
@@ -105,21 +105,21 @@ def get_ricc_tests():
     for h in range(2):
         for u in range(2):
             for g in range(2):
-                pred_true = is_message_a_spam(True, h, u, g)
-                pred_false = is_message_a_spam(False, h, u, g)
-                if pred_true == pred_false:
-                    if pred_true and not true_pred_found:
+                predicat1 = is_message_a_spam(True, h, u, g)
+                predicat2 = is_message_a_spam(False, h, u, g)
+                if predicat1 == predicat2:
+                    if predicat1 and not true_pred_found:
                         true_pred_found = True
-                        d1 = f"<[P = 1, H = {h}, U = {u}, G = {g}],S = {pred_true}>"
-                        d2 = f"<[P = 0, H = {h}, U = {u}, G = {g}],S = {pred_false}>"
+                        d1 = f"<[P = 1, H = {h}, U = {u}, G = {g}],S = {predicat1}>"
+                        d2 = f"<[P = 0, H = {h}, U = {u}, G = {g}],S = {predicat2}>"
                         if d1 not in tests:
                             tests.append(d1)
                         if d2 not in tests:
                             tests.append(d2)
-                    if not pred_true and not false_pred_found:
+                    if not predicat1 and not false_pred_found:
                         false_pred_found = True
-                        d1 = f"<[P = 1, H = {h}, U = {u}, G = {g}],S = {pred_true}>"
-                        d2 = f"<[P = 0, H = {h}, U = {u}, G = {g}],S = {pred_false}>"
+                        d1 = f"<[P = 1, H = {h}, U = {u}, G = {g}],S = {predicat1}>"
+                        d2 = f"<[P = 0, H = {h}, U = {u}, G = {g}],S = {predicat2}>"
                         if d1 not in tests:
                             tests.append(d1)
                         if d2 not in tests:
@@ -131,21 +131,21 @@ def get_ricc_tests():
     for p in range(2):
         for u in range(2):
             for g in range(2):
-                pred_true = is_message_a_spam(p, True, u, g)
-                pred_false = is_message_a_spam(p, False, u, g)
-                if pred_true == pred_false:
-                    if pred_true and not true_pred_found:
+                predicat1 = is_message_a_spam(p, True, u, g)
+                predicat2 = is_message_a_spam(p, False, u, g)
+                if predicat1 == predicat2:
+                    if predicat1 and not true_pred_found:
                         true_pred_found = True
-                        d1 = f"<[P = {p}, H = 1, U = {u}, G = {g}],S = {pred_true}>"
-                        d2 = f"<[P = {p}, H = 0, U = {u}, G = {g}],S = {pred_false}>"
+                        d1 = f"<[P = {p}, H = 1, U = {u}, G = {g}],S = {predicat1}>"
+                        d2 = f"<[P = {p}, H = 0, U = {u}, G = {g}],S = {predicat2}>"
                         if d1 not in tests:
                             tests.append(d1)
                         if d2 not in tests:
                             tests.append(d2)
-                    if not pred_true and not false_pred_found:
+                    if not predicat1 and not false_pred_found:
                         false_pred_found = True
-                        d1 = f"<[P = {p}, H = 1, U = {u}, G = {g}],S = {pred_true}>"
-                        d2 = f"<[P = {p}, H = 0, U = {u}, G = {g}],S = {pred_false}>"
+                        d1 = f"<[P = {p}, H = 1, U = {u}, G = {g}],S = {predicat1}>"
+                        d2 = f"<[P = {p}, H = 0, U = {u}, G = {g}],S = {predicat2}>"
                         if d1 not in tests:
                             tests.append(d1)
                         if d2 not in tests:
@@ -157,21 +157,21 @@ def get_ricc_tests():
     for p in range(2):
         for h in range(2):
             for g in range(2):
-                pred_true = is_message_a_spam(p, h, True, g)
-                pred_false = is_message_a_spam(p, h, False, g)
-                if pred_true == pred_false:
-                    if pred_true and not true_pred_found:
+                predicat1 = is_message_a_spam(p, h, True, g)
+                predicat2 = is_message_a_spam(p, h, False, g)
+                if predicat1 == predicat2:
+                    if predicat1 and not true_pred_found:
                         true_pred_found = True
-                        d1 = f"<[P = {p}, H = {h}, U = 1, G = {g}],S = {pred_true}>"
-                        d2 = f"<[P = {p}, H = {h}, U = 0, G = {g}],S = {pred_false}>"
+                        d1 = f"<[P = {p}, H = {h}, U = 1, G = {g}],S = {predicat1}>"
+                        d2 = f"<[P = {p}, H = {h}, U = 0, G = {g}],S = {predicat2}>"
                         if d1 not in tests:
                             tests.append(d1)
                         if d2 not in tests:
                             tests.append(d2)
-                    if not pred_true and not false_pred_found:
+                    if not predicat1 and not false_pred_found:
                         false_pred_found = True
-                        d1 = f"<[P = {p}, H = {h}, U = 1, G = {g}],S = {pred_true}>"
-                        d2 = f"<[P = {p}, H = {h}, U = 0, G = {g}],S = {pred_false}>"
+                        d1 = f"<[P = {p}, H = {h}, U = 1, G = {g}],S = {predicat1}>"
+                        d2 = f"<[P = {p}, H = {h}, U = 0, G = {g}],S = {predicat2}>"
                         if d1 not in tests:
                             tests.append(d1)
                         if d2 not in tests:
@@ -183,21 +183,21 @@ def get_ricc_tests():
     for p in range(2):
         for h in range(2):
             for u in range(2):
-                pred_true = is_message_a_spam(p, h, u, True)
-                pred_false = is_message_a_spam(p, h, u, False)
-                if pred_true == pred_false:
-                    if pred_true and not true_pred_found:
+                predicat1 = is_message_a_spam(p, h, u, True)
+                predicat2 = is_message_a_spam(p, h, u, False)
+                if predicat1 == predicat2:
+                    if predicat1 and not true_pred_found:
                         true_pred_found = True
-                        d1 = f"<[P = {p}, H = {h}, U = {u}, G = 1],S = {pred_true}>"
-                        d2 = f"<[P = {p}, H = {h}, U = {u}, G = 0],S = {pred_false}>"
+                        d1 = f"<[P = {p}, H = {h}, U = {u}, G = 1],S = {predicat1}>"
+                        d2 = f"<[P = {p}, H = {h}, U = {u}, G = 0],S = {predicat2}>"
                         if d1 not in tests:
                             tests.append(d1)
                         if d2 not in tests:
                             tests.append(d2)
-                    if not pred_true and not false_pred_found:
+                    if not predicat1 and not false_pred_found:
                         false_pred_found = True
-                        d1 = f"<[P = {p}, H = {h}, U = {u}, G = 1],S = {pred_true}>"
-                        d2 = f"<[P = {p}, H = {h}, U = {u}, G = 0],S = {pred_false}>"
+                        d1 = f"<[P = {p}, H = {h}, U = {u}, G = 1],S = {predicat1}>"
+                        d2 = f"<[P = {p}, H = {h}, U = {u}, G = 0],S = {predicat2}>"
                         if d1 not in tests:
                             tests.append(d1)
                         if d2 not in tests:
