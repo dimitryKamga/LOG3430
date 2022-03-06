@@ -20,15 +20,15 @@ class EmailAnalyzer:
         Sortie: 'True' - si l'email est spam, 'False' - si email est ham.
         '''
         # Clean email's subject and body
-        email_subject = self.clean_text(subject_orig)
-        email_body = self.clean_text(body_orig)
+        email_subject = self.clean_text(subject_orig, clean_option)
+        email_body = self.clean_text(body_orig, clean_option)
 
         # Get the spam/ham probabilities
         p_subject_spam, p_subject_ham = self.spam_ham_subject_prob(email_subject, log_prob)
         p_body_spam, p_body_ham = self.spam_ham_body_prob(email_body, log_prob)
 
         # Compute the merged probabilities
-        if prob_combine:
+        if prob_combine and not log_prob:
             a = 0 if p_subject_spam == 0 else 0.6 * math.log10(p_subject_spam)
             b = 0 if p_body_spam == 0 else 0.4 * math.log10(p_body_spam)
             p_spam = math.pow(10, a + b)
