@@ -26,7 +26,7 @@ class RENEGE:
             raise e
             return False
 
-    def process_email(self, new_emails):
+    def process_email(self, new_emails,log_prob, log_combine, clean_option):
         '''
         Description: fonction pour analyser chaque nouvel e-mail dans le 
         dictionnaire. Elle gere l'ajout des nouveaux utilisateurs et/ou modification
@@ -47,7 +47,7 @@ class RENEGE:
             name = data["From"]
             date = data["Date"]
             body = data["Body"]
-            is_spam = data["Spam"]
+            is_spam = self.e_mail.is_spam(subject, body, log_prob, log_combine, clean_option)
 
             # Get registered data
             user_id = -1
