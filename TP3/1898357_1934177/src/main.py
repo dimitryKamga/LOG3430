@@ -16,14 +16,9 @@ def read_csv(filen):
             next(csv_reader)
 
         for row in csv_reader:
-            print(string_to_bool(row[0]), string_to_bool(row[1]), int(row[2]), int(row[3]))
-            row_array = (string_to_bool(row[0]), string_to_bool(row[1]), int(row[2]), int(row[3]))
+            row_array = (bool(row[0]), bool(row[1]), int(row[2]), int(row[3]))
             data.append(row_array)
         return data
-
-
-def string_to_bool(value):
-    return value == "sum_of_logs"
 
 
 def write_csv(test_data):
