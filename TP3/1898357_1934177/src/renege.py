@@ -1,5 +1,4 @@
 import json
-import sys
 from crud import CRUD
 from email_analyzer import EmailAnalyzer
 
