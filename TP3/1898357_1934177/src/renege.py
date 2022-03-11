@@ -18,6 +18,7 @@ class RENEGE:
         Sortie: bool, 'True' pour success, 'False' dans le cas de failure.
         '''
         try:
+            print(log_prob, log_combine, clean_option)
             self.process_email(log_prob, log_combine, clean_option)
             return True
         except Exception as e:
