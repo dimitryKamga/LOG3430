@@ -31,7 +31,7 @@ class VocabularyCreator:
 
         return proba_dict
 
-    def create_vocab(self, word_freq=1):
+    def create_vocab(self, min_occ, clean_option):
         '''
         Description: fonction pour creer le vocabulaire des mots presents
         dans les e-mails spam et ham et le sauvegarder dans le fichier
@@ -71,7 +71,7 @@ class VocabularyCreator:
                 is_spam = True
 
             # Analyze the subject 
-            subject = self.cleaning.clean_text(subject)
+            subject = self.clean_text(subject, clean_option)
             if is_spam:
                 for wd in subject:
                     total_occ_spam_sub += 1
@@ -90,7 +90,7 @@ class VocabularyCreator:
                         occ_ham_sub[wd] += 1
 
             # Analyze the body
-            body = self.cleaning.clean_text(body)
+            body = self.cleaning.clean_text(body, clean_option)
             if is_spam:
                 for wd in body:
                     total_occ_spam_bod += 1
@@ -109,10 +109,10 @@ class VocabularyCreator:
                         occ_ham_bod[wd] += 1
 
         # Create the data dictionary
-        p_sub_spam = self.compute_proba(occ_spam_sub, total_occ_spam_sub, word_freq)
-        p_sub_ham = self.compute_proba(occ_ham_sub, total_occ_ham_sub, word_freq)
-        p_body_spam = self.compute_proba(occ_spam_bod, total_occ_spam_bod, word_freq)
-        p_body_ham = self.compute_proba(occ_ham_bod, total_occ_ham_bod, word_freq)
+        p_sub_spam = self.compute_proba(occ_spam_sub, total_occ_spam_sub, min_occ)
+        p_sub_ham = self.compute_proba(occ_ham_sub, total_occ_ham_sub, min_occ)
+        p_body_spam = self.compute_proba(occ_spam_bod, total_occ_spam_bod, min_occ)
+        p_body_ham = self.compute_proba(occ_ham_bod, total_occ_ham_bod, min_occ)
 
         self.voc_data = {
             "p_sub_spam": p_sub_spam,
@@ -142,5 +142,5 @@ class VocabularyCreator:
         except:
             return False
 
-    def clean_text(self, text):
-        return self.cleaning.clean_text(text)
+    def clean_text(self, text, clean_option):
+        return self.cleaning.clean_text(text, clean_option)
