@@ -25,7 +25,7 @@ class EmailAnalyzer:
 
         # Get the spam/ham probabilities
         p_subject_spam, p_subject_ham = self.spam_ham_subject_prob(email_subject, log_prob)
-        p_body_spam, p_body_ham = self.spam_ham_body_prob(email_body,log_prob)
+        p_body_spam, p_body_ham = self.spam_ham_body_prob(email_body, log_prob)
 
         # Compute the merged probabilities
         if prob_combine and not log_prob:
@@ -141,4 +141,3 @@ class EmailAnalyzer:
             vocabu = json.load(json_data)
 
         return vocabu
-

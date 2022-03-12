@@ -6,10 +6,10 @@ from renege import RENEGE
 from email_analyzer import EmailAnalyzer
 
 
-def read_csv(filen):
-    with open(filen, mode='r') as file:
+def read_csv(filename):
+    with open(filename, mode='r') as file:
         csv_reader = csv.reader(file, delimiter=',')
-        data = []
+        datas = []
 
         # skip the first lines
         for x in range(7):
@@ -18,7 +18,7 @@ def read_csv(filen):
         for row in csv_reader:
             row_array = (string_to_bool(row[0]), string_to_bool(row[1]), int(row[2]), int(row[3]))
             data.append(row_array)
-        return data
+        return datas
 
 def string_to_bool(value):
     return value == 'true'
@@ -76,10 +76,10 @@ def evaluate(log_prob, prob_combine, clean_option):
 
 
 if __name__ == "__main__":
-    file_name = 'ACTS_output_3.csv'
-    data_array = read_csv(file_name)
+    filename = 'ACTS_output_3.csv'
+    datas = read_csv(filename)
     results = []
-    for data in data_array:
+    for data in datas:
         # 1. Creation de vocabulaire.
         vocab = VocabularyCreator()
         vocab.create_vocab(data[2], data[3])
