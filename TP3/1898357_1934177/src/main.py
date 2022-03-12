@@ -76,7 +76,7 @@ def evaluate(log_prob, prob_combine, clean_option):
 
 
 if __name__ == "__main__":
-    file_name = 'ACTS_output_4.csv'
+    file_name = 'ACTS_output_3.csv'
     data_array = read_csv(file_name)
     results = []
     for data in data_array:
