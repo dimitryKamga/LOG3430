@@ -14,7 +14,7 @@ class TestCRUDMaDUM(unittest.TestCase):
 
     def setUp(self):
         self.users_data = {
-            "1": {
+            "0": {
                 "name": "alex@gmail.com",
                 "Trust": 100,
                 "SpamN": 0,
@@ -23,7 +23,7 @@ class TestCRUDMaDUM(unittest.TestCase):
                 "Date_of_last_seen_message": 1596844800.0,
                 "Groups": ["default"],
             },
-            "2": {
+            "1": {
                 "name": "mark@mail.com",
                 "Trust": 65.45454,
                 "SpamN": 171,
@@ -35,10 +35,15 @@ class TestCRUDMaDUM(unittest.TestCase):
         }
 
         self.groups_data = {
-             "1": {
+            "0": {
                 "name": "default",
                 "Trust": 50,
                 "List_of_members": ["alex@gmail.com", "mark@mail.com"],
+            },
+            "1": {
+                "name": "test",
+                "Trust": 80,
+                "List_of_members": ["alex@gmail.com"],
             },
         }
     
@@ -49,29 +54,24 @@ class TestCRUDMaDUM(unittest.TestCase):
 
     # Tests des rapporteurs
     
-    @patch("crud.CRUD.read_users_file")
     @patch("crud.CRUD.read_groups_file")
-    def test_get_new_group_id(self, mock_read_groups_file, mock_read_users_file):
-        mock_read_users_file.return_value = self.users_data
+    def test_get_new_group_id(self, mock_read_groups_file):
         mock_read_groups_file.return_value = self.groups_data
         crud = CRUD()
-        newId = crud.get_new_group_id()
 
-        self.assertEqual(newId, "2")
+        self.assertEqual(crud.get_new_group_id(), "2")
 
-    @patch("crud.CRUD.read_users_file")
     @patch("crud.CRUD.read_groups_file")
-    def test_get_groups_data(self, mock_read_groups_file, mock_read_users_file):
-        mock_read_users_file.return_value = self.users_data
+    def test_get_groups_data(self, mock_read_groups_file):
         mock_read_groups_file.return_value = self.groups_data
         crud = CRUD()
         name = crud.get_groups_data(1, "name")
         trust = crud.get_groups_data(1, "Trust")
         list_members = crud.get_groups_data(1, "List_of_members")
 
-        self.assertEqual(name, "default")
-        self.assertEqual(trust, 50)
-        self.assertEqual(list_members, ["alex@gmail.com", "mark@mail.com"])
+        self.assertEqual(name, "test")
+        self.assertEqual(trust, 80)
+        self.assertEqual(list_members, ["alex@gmail.com"])
 
     # Tests des constructeurs 
     
@@ -82,9 +82,9 @@ class TestCRUDMaDUM(unittest.TestCase):
         mock_read_groups_file.return_value = self.groups_data
         crud = CRUD()
 
-        self.assertEqual(crud.get_groups_data(1, "name"), "default")
-        self.assertEqual(crud.get_groups_data(1, "Trust"), 50)
-        self.assertEqual(crud.get_groups_data(1, "List_of_members"), ["alex@gmail.com", "mark@mail.com"])
+        self.assertEqual(crud.get_groups_data(1, "name"), "test")
+        self.assertEqual(crud.get_groups_data(1, "Trust"), 80)
+        self.assertEqual(crud.get_groups_data(1, "List_of_members"), ["alex@gmail.com"])
   
     # Tests des transformateurs
     # Tests des fonctions "add_new_group", "update_groups", "remove_group", "remove_group_member" 
