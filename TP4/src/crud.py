@@ -332,7 +332,6 @@ class CRUD:
         
         return self.modify_users_file(self.users_data)
 
-
     def update_groups(self, group_id, field, data):
         '''
         Description: fonction qui modifie les donnees du groupe
