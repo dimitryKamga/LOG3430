@@ -6,8 +6,9 @@ from text_cleaner import TextCleaning
 class VocabularyCreator:
     """Class for creating vocabulary of spam and non-spam messages"""
 
-    def __init__(self):
-        self.train_set  = "train_set.json"
+    def __init__(self, filename):
+        # repertoires fichiers json
+        self.train_set  = "./jsonfiles/" + filename + ".json"
         self.cleaning   = TextCleaning()
         self.vocabulary = "vocabulary.json"
         self.voc_data   = {}

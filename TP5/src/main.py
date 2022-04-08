@@ -4,14 +4,14 @@ from renege import RENEGE
 from email_analyzer import EmailAnalyzer
 
 
-def evaluate():
+def evaluate(model):
     tp = 0
     tn = 0
     fp = 0
     fn = 0
     total = 0
     analyzer = EmailAnalyzer()
-    with open("test_set.json") as email_file:
+    with open("./jsonfiles/" + model + ".json") as email_file:
         new_emails = json.load(email_file)
 
     i = 0
@@ -36,23 +36,56 @@ def evaluate():
         if (not (analyzer.is_spam(subject, body))) and (spam == "true"):
             fn += 1
         total += 1
-    
+
     print("")
-    print("\nAccuracy: ", round((tp + tn) / (tp + tn + fp + fn), 2))
+    # print("\nAccuracy: ", round((tp + tn) / (tp + tn + fp + fn), 2))
+
     print("Precision: ", round(tp / (tp + fp), 2))
+    precision = round(tp / (tp + fp), 2)
+
     print("Recall: ", round(tp / (tp + fn), 2))
-    return True
+    recall = round(tp / (tp + fn), 2)
+
+    return f1(precision, recall)
 
 
-if __name__ == "__main__":
+# Metrique f1
+def f1(precision, recall):
+    return 2 * (precision * recall) / (precision + recall)
 
+
+def getperfomance(filename, model):
     # 1. Creation de vocabulaire.
-    vocab = VocabularyCreator()
+    vocab = VocabularyCreator(filename)
     vocab.create_vocab()
 
     # 2. Classification des emails et initialisation des utilisateurs et des groupes.
-    renege = RENEGE()
+    renege = RENEGE(filename)
     renege.classify_emails()
 
-    #3. Evaluation de performance du modele avec la fonction evaluate()
-    evaluate()
+    # 3. Evaluation de performance du modele avec la fonction evaluate()
+    evaluate(model)
+
+if __name__ == "__main__":
+
+    options = ["train", "test"]
+    metamorphic_transformations = ["clean", "shuffle", "700x3", "words"]
+
+    for option in options:
+        for mt in metamorphic_transformations:
+            # build the filename
+            filename = option + '_' + mt
+            # build the fileset
+            fileset = option + '_set'
+
+            vocab = VocabularyCreator(filename)
+            vocab.create_vocab()
+            renege = RENEGE(filename)
+            renege.classify_emails()
+
+            if option == "train":
+                getperfomance(filename, "test_set")
+            else:
+                getperfomance("train_set", filename)
+
+        print("\n")
