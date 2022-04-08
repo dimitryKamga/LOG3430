@@ -12,8 +12,8 @@ class TestMain(unittest.TestCase):
 
     def prepareVocab(self,trainFile):
             # 1. Creation de vocabulaire.
-            vocab = VocabularyCreator()
-            vocab.create_vocab(trainFile)
+            vocab = VocabularyCreator(trainFile)
+            vocab.create_vocab()
             # 2. Classification des emails et initialisation de utilisateurs et groupes.
             renege = RENEGE(trainFile)
             renege.classify_emails()
