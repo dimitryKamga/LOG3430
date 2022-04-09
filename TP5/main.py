@@ -1,10 +1,8 @@
 import json
-import random
-import copy
+
 from vocabulary_creator import VocabularyCreator
 from renege import RENEGE
 from email_analyzer import EmailAnalyzer
-from text_cleaner import TextCleaning
 
 def evaluate(model):
     tp = 0
@@ -77,7 +75,7 @@ if __name__ == "__main__":
         for mt in metamorphic_transformations:
             if mt == "triple" and option == "train":
                 mt = "700x3"
-            else:
+            if mt == "triple" and option == "test":
                 mt = "300x3"
 
             # build the filename
