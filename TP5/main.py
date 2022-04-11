@@ -45,6 +45,8 @@ def evaluate(model):
 
     print("Recall: ", round(tp / (tp + fn), 2))
     recall = round(tp / (tp + fn), 2)
+    
+    print("f1 : ", round(f1(precision, recall), 2))
 
     return f1(precision, recall)
 
